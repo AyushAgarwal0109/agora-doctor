@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useMicrophoneAndCameraTracks } from './settings.js';
 import Video from './Video';
 import { getAccessToken } from './getAccessToken.js';
+import { renewAccessToken } from './renewAccessToken.js';
 import { createClient } from 'agora-rtc-react';
 
 export default function VideoCall(props) {
@@ -42,8 +43,10 @@ export default function VideoCall(props) {
   //     position: 'top-right',
   //   });
   // } else if (clientStats.Duration >= 840 && clientStats.Duration < 900) {
-  //   if (window.confirm('Do you wish to extend the meeting by 2 minutes?'))
+  //   if (window.confirm('Do you wish to extend the meeting by 2 minutes?')) {
   //     alert('Meeting extended by 2 minutes.');
+  //     renewTokenDetails()
+  //   }
   // } else if (clientStats.Duration >= 900) {
   //   setNotifications({
   //     msg: 'Time limit reached. Meeting is about to end.',
@@ -53,22 +56,48 @@ export default function VideoCall(props) {
   // }
 
   const setLocalState = async () => {
-    let tokenDetails = await getAccessToken(token);
-    console.log(tokenDetails);
-    if (tokenDetails) {
-      setChannelName(tokenDetails.channel_name);
-      setDoctorUid(tokenDetails.doctor_uid);
-      const configurations = {
-        mode: 'rtc',
-        codec: 'vp8',
-        appId: tokenDetails.app_id,
-        token: tokenDetails.token_doctor,
-      };
-      setConfig(configurations);
-      const createdClient = createClient(configurations);
-      setClient(createdClient);
+    try {
+      let tokenDetails = await getAccessToken(token);
+      console.log(tokenDetails);
+      if (tokenDetails) {
+        setChannelName(tokenDetails.channel_name);
+        setDoctorUid(tokenDetails.uid);
+        const configurations = {
+          mode: 'rtc',
+          codec: 'vp8',
+          appId: tokenDetails.app_id,
+          token: tokenDetails.token,
+        };
+        setConfig(configurations);
+        const createdClient = createClient(configurations);
+        setClient(createdClient);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
+
+  // const renewTokenDetails = async () => {
+  //   try {
+  //     let tokenDetails = await renewAccessToken(channelName, token);
+  //     console.log(tokenDetails);
+  //     if (tokenDetails) {
+  //       const configurations = {
+  //         mode: 'rtc',
+  //         codec: 'vp8',
+  //         appId: tokenDetails.app_id,
+  //         token: tokenDetails.token_doctor,
+  //       };
+  //       setConfig(configurations);
+  //       const createdClient = createClient(configurations);
+  //       setClient(createdClient);
+  //       // await client.renewToken(token);
+  //       // await client.join(<APPID>, <CHANNEL NAME>, <NEW TOKEN>);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
     let init = async (name) => {
