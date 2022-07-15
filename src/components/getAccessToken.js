@@ -10,6 +10,7 @@ export const getAccessToken = async (token) => {
     url: 'http://withdocs1.herokuapp.com/api/v11/user/meetingtoken',
     headers: {
       Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
     },
     data: data,
   };
