@@ -7,7 +7,7 @@ export const getAccessToken = async (token) => {
 
   var config = {
     method: 'post',
-    url: 'http://withdocs1.herokuapp.com/api/v11/user/meetingtoken',
+    url: 'https://withdocs1.herokuapp.com/api/v11/user/meetingtoken',
     headers: {
       Authorization: 'Bearer ' + token,
       'Content-Type': 'application/json',
