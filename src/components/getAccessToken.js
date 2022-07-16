@@ -17,7 +17,7 @@ export const getAccessToken = async (token) => {
 
   return await axios(config)
     .then(function (response) {
-      console.log(response);
+      // console.log(response);
       return response.data;
     })
     .catch(function (error) {

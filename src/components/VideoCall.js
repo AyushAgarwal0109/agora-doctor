@@ -103,7 +103,12 @@ export default function VideoCall(props) {
     let init = async (name) => {
       if (client && config) {
         try {
-          await client.join(config.appId, name, config.token, doctorUid);
+          await client.join(
+            config.appId,
+            name,
+            config.token,
+            parseInt(doctorUid)
+          );
           setNotifications({
             msg: 'Joined the channel successfully',
             duration: 3000,
@@ -120,6 +125,7 @@ export default function VideoCall(props) {
           console.log('Joined user: ', user);
           // console.log(disconnected, user);
           if (user.uid == disconnected.user && disconnected.status) {
+            console.log('User reconnected');
             setNotifications({
               msg: 'User reconnected to the channel',
               duration: 3000,
@@ -225,6 +231,7 @@ export default function VideoCall(props) {
         });
 
         client.on('user-left', (user, reason) => {
+          console.log('user-left: ', reason);
           setUsers((prevUsers) => {
             return prevUsers.filter((User) => User.uid !== user.uid);
           });
