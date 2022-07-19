@@ -51,6 +51,7 @@ export default function Video(props) {
   // Timer notifications
   useEffect(() => {
     const now = Date.now() / 1000 - createdAt;
+    console.log(now);
     if (now > 599 && now <= 600) {
       toast.success('5 minutes remaining', {
         duration: 5000,
@@ -67,6 +68,8 @@ export default function Video(props) {
         renewAccessToken()
           .then(() => console.log('Time limit extended!'))
           .catch((err) => console.log(err));
+
+        setWasExtended(true);
       }
     } else if (now > 899 && now <= 900 && !wasExtended) {
       toast.success('Time over! Meeting about to end', {
@@ -176,7 +179,7 @@ export default function Video(props) {
     setCreatedAt(new Date(meetInfo.meet.createdAt).getTime() / 1000);
   };
 
-  // console.log('Users in channel: ', tmpUsers);
+  console.log('wasExtended: ', wasExtended);
 
   return (
     <div className='app-container'>
