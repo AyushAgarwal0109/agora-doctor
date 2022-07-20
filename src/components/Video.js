@@ -52,12 +52,12 @@ export default function Video(props) {
   useEffect(() => {
     const now = Date.now() / 1000 - createdAt;
     console.log(now);
-    if (now > 599 && now <= 600) {
+    if (now > 598 && now <= 600) {
       toast.success('5 minutes remaining', {
         duration: 5000,
         position: 'top-right',
       });
-    } else if (now > 779 && now <= 780) {
+    } else if (now > 778 && now <= 780) {
       toast.success('2 minutes remaining', {
         duration: 5000,
         position: 'top-right',
@@ -71,13 +71,13 @@ export default function Video(props) {
 
         setWasExtended(true);
       }
-    } else if (now > 899 && now <= 900 && !wasExtended) {
+    } else if (now > 898 && now <= 900 && !wasExtended) {
       toast.success('Time over! Meeting about to end', {
         duration: 5000,
         position: 'top-right',
       });
       handleLeave(true);
-    } else if (now > 1079 && now <= 1080 && wasExtended) {
+    } else if (now > 1078 && now <= 1080 && wasExtended) {
       toast.success('Time over! Meeting about to end', {
         duration: 5000,
         position: 'top-right',
